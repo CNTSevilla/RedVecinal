@@ -1,18 +1,21 @@
-# Familias Palmete - Vivienda Digna
+# Red Vecinal
 
-Web de denuncia y organización vecinal por vivienda digna. Nace de la victoria de **11 familias del barrio de Palmete (Sevilla)** que frenaron desahucios ilegales y consiguieron alquileres VPO de **200€/mes**.
+Red vecinal de alertas y apoyo mutuo. Plataforma anónima para que vecinas y vecinos puedan reportar situaciones de riesgo, coordinar apoyo en tiempo real y fortalecer la seguridad comunitaria desde la solidaridad de barrio.
 
-El sitio incluye un **mapa interactivo** donde cualquier persona puede reportar alquileres abusivos en Andalucía, ver la situación de la vivienda en Sevilla, conocer la historia de la victoria de Palmete y organizarse colectivamente.
+El sitio incluye un **mapa interactivo** donde cualquier persona puede crear alertas anónimas, ver incidentes cercanos, asistir a otras personas que necesitan apoyo y mantenerse informada de lo que ocurre en su entorno.
 
 ## Tecnologías
 
 | Capa | Tecnología |
 |---|---|
-| Framework | [Astro 4](https://astro.build/) (SSR) |
-| Servidor | Node.js (`@astrojs/node`, modo standalone) |
+| Frontend | [React 19](https://react.dev/) + TypeScript + [Vite](https://vite.dev/) |
+| Servidor | Node.js + [Express](https://expressjs.com/) |
 | Base de datos | MySQL 8.0 (`mysql2` + Docker Compose) |
-| Mapas | Leaflet.js + MarkerCluster + Heatmap |
-| Autenticación | Token base64 (30 min expiración) |
+| Mapas | Leaflet.js + MarkerCluster |
+| Mobile | [Capacitor](https://capacitorjs.com/) (APK Android) |
+| PWA | `vite-plugin-pwa` (instalable offline) |
+| Traducciones | i18next + react-i18next (7 idiomas) |
+| Identificación | Fingerprint SHA-256 (canvas + UA + screen) |
 
 ## Requisitos previos
 
@@ -94,76 +97,103 @@ docker compose version
 ```bash
 cd ~/Escritorio
 git clone <URL_DEL_REPOSITORIO>
-cd FamiliasPalmete
+cd redvecinal
 ```
 
-### 2. Instalar las dependencias
+### 2. Instalar dependencias
+
+El proyecto tiene dos `package.json`: raíz (frontend) y `server/` (API).
 
 ```bash
+# Frontend
 npm install
+
+# API
+cd server && npm install && cd ..
 ```
 
 ### 3. Configurar variables de entorno
 
-Crea un archivo `.env` en la raíz del proyecto:
+Copia el archivo de ejemplo:
 
 ```bash
 cp .env.example .env
 ```
 
-O créalo manualmente:
+Ajusta las credenciales MySQL si es necesario:
 
 ```
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=TuContraseñaSegura
-
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=familiaspalmete
-DB_PASSWORD=familiaspalmete
-DB_NAME=familiaspalmete
+DB_HOST=127.0.0.1
+DB_PORT=3307
+DB_USER=redvecinal
+DB_PASSWORD=redvecinal_pass
+DB_NAME=redvecinal
 ```
 
-### 4. Arrancar MySQL
+> Las credenciales por defecto coinciden con las de `docker-compose.yml`. Si usas MySQL local, cambia `DB_PORT` a `3306` y ajusta usuario/contraseña.
+
+### 4. Arrancar MySQL y la API
 
 #### Opción A — Con Docker (recomendado)
 
 ```bash
-docker compose up -d
+# Arrancar MySQL
+npm run dev:docker
+
+# Arrancar la API
+npm run dev:api
 ```
 
-Esto crea un contenedor con MySQL 8.0, la base de datos, el usuario y las tablas automáticamente mediante `db/init.sql`.
+Esto crea un contenedor con MySQL 8.0, la base de datos, el usuario y las tablas automáticamente mediante `sql/init/`. La API Express escucha en `http://localhost:3001`.
 
 #### Opción B — Con MySQL local
 
+Si ya tienes MySQL 8.0 instalado, crea la base de datos y el usuario:
+
 ```sql
-CREATE DATABASE IF NOT EXISTS familiaspalmete;
-CREATE USER IF NOT EXISTS 'familiaspalmete'@'%' IDENTIFIED BY 'familiaspalmete';
-GRANT ALL PRIVILEGES ON familiaspalmete.* TO 'familiaspalmete'@'%';
+CREATE DATABASE IF NOT EXISTS redvecinal;
+CREATE USER IF NOT EXISTS 'redvecinal'@'%' IDENTIFIED BY 'redvecinal_pass';
+GRANT ALL PRIVILEGES ON redvecinal.* TO 'redvecinal'@'%';
 FLUSH PRIVILEGES;
 ```
 
-Luego crea la tabla:
+Luego ejecuta los scripts SQL en orden:
 
 ```bash
-mysql -u root -p familiaspalmete < db/init.sql
+mysql -u root -p redvecinal < sql/init/00001_schema.sql
+mysql -u root -p redvecinal < sql/init/00002_triggers.sql
+mysql -u root -p redvecinal < sql/init/00003_cleanup.sql
 ```
 
-### 5. Arrancar el servidor de desarrollo
+Y arranca la API:
+
+```bash
+npm run dev:api
+```
+
+### 5. Arrancar el frontend
+
+En otra terminal:
 
 ```bash
 npm run dev
 ```
 
-Abre `http://localhost:4321/` en tu navegador.
+El frontend arranca en `http://localhost:5173/`. Las peticiones `/api` se proxydan automáticamente a la API en `:3001`.
 
-### 6. Construir para producción
+### 6. Abrir en el navegador
+
+Abre `http://localhost:5173/` en tu navegador.
+
+### 7. Construir para producción
 
 ```bash
 npm run build
 ```
 
-### 7. Previsualizar la build de producción
+Esto genera los archivos optimizados en `dist/`.
+
+### 8. Previsualizar la build de producción
 
 ```bash
 npm run preview
@@ -174,71 +204,112 @@ npm run preview
 ## Estructura del proyecto
 
 ```
-FamiliasPalmete/
-├── db/
-│   ├── connection.js
-│   ├── init.sql
-│   └── setup.js
-├── public/
+redvecinal/
+├── server/                     # API Express
+│   ├── index.js                # Servidor (rutas, CORS, inicio)
+│   ├── db.js                   # Conexión MySQL (pool)
+│   ├── models.js               # Consultas a la base de datos
+│   ├── Dockerfile              # Build para deploy
+│   └── package.json
+├── sql/init/                   # Scripts SQL
+│   ├── 00001_schema.sql        # Tablas alertas + assists
+│   ├── 00002_triggers.sql      # Triggers de contadores
+│   └── 00003_cleanup.sql       # Evento limpieza expiradas
 ├── src/
 │   ├── components/
-│   │   ├── layout/
-│   │   ├── sections/
-│   │   └── ui/
-│   ├── layouts/
-│   ├── pages/
-│   │   ├── index.astro
-│   │   ├── el-problema/
-│   │   ├── la-solucion/
-│   │   ├── mapa/
-│   │   ├── privacidad/
-│   │   ├── admin/
-│   │   └── api/
-│   └── styles/
-├── docker-compose.yml
-├── astro.config.mjs
-├── package.json
-├── tsconfig.json
-└── .env
+│   │   ├── MapView.tsx         # Mapa Leaflet + alertas + ubicación
+│   │   ├── CreateAlertModal.tsx # Modal de creación de alerta
+│   │   ├── NearbyAlertsSidebar.tsx # Panel alertas cercanas
+│   │   ├── LanguageSwitcher.tsx # Selector de idioma
+│   │   └── Logo.tsx           # Logo SVG
+│   ├── i18n/
+│   │   ├── i18n.ts             # Configuración i18next
+│   │   └── locales/            # Traducciones (7 idiomas)
+│   ├── lib/
+│   │   ├── api.ts              # Cliente HTTP para la API
+│   │   ├── fingerprint.ts      # Identificador anónimo del navegador
+│   │   ├── geo.ts              # Utilidades geo (haversine, point-in-polygon)
+│   │   └── spain.json          # GeoJSON límites de España
+│   └── pages/
+│       └── HomePage.tsx        # Página principal
+├── android/                    # Proyecto Android (Capacitor)
+├── docker-compose.yml          # MySQL 8.0 en contenedor
+├── capacitor.config.ts         # Config Capacitor
+├── vite.config.ts              # Config Vite (proxy, PWA)
+├── package.json                # Dependencias frontend
+└── .env.example                # Variables de entorno de ejemplo
 ```
 
 ## Comandos disponibles
 
 | Comando | Descripción |
 |---|---|
-| `npm run dev` | Servidor de desarrollo con hot-reload |
-| `npm run build` | Construye para producción |
+| `npm run dev` | Frontend Vite con hot-reload |
+| `npm run dev:api` | API Express con `--watch` |
+| `npm run dev:docker` | Arranca MySQL en Docker |
+| `npm run build` | Build producción (TypeScript + Vite) |
+| `npm run build:mobile` | Build + sincronizar con Capacitor |
 | `npm run preview` | Previsualiza la build de producción |
-| `npm run astro` | CLI de Astro |
+| `npm run lint` | ESLint |
 
 ## Despliegue
 
+### Web
+
+El frontend se despliega como estático (`dist/`) en cualquier servidor (Vercel, Netlify, etc.).
+
+La API Express se despliega con Docker o Node.js directo. El `Dockerfile` en `server/` construye la imagen:
+
 ```bash
-npm run build
-node ./dist/server/entry.mjs
+docker build -t redvecinal-api ./server
+docker run -p 3001:3001 redvecinal-api
 ```
+
+### APK Android
+
+```bash
+npm run build:mobile   # Build web + sync Capacitor
+cd android && ./gradlew assembleDebug   # Genera APK
+```
+
+La APK queda en `android/app/build/outputs/apk/debug/app-debug.apk`.
 
 ## Seguridad y anti-spam
 
 ### Fingerprint del navegador
 
-Cada usuario genera un identificador único basado en características de su dispositivo:
+Cada usuaria genera un identificador anónimo basado en características de su dispositivo:
 
+- Canvas fingerprinting
 - User agent
-- Resolución de pantalla
-- Idioma del sistema
-- Zona horaria
-- Núcleos del procesador
-- Memoria RAM
 - Profundidad de color
+- Idioma del sistema
 
-### Límite: 1 envío por usuario
+Estos datos se combinan y se hashean con SHA-256. **No se almacena ningún dato personal.**
 
-El servidor comprueba si el fingerprint ya existe antes de aceptar un nuevo reporte.
+### Límite de creación
+
+El servidor permite máximo **2 alertas cada 5 minutos** por fingerprint para evitar spam.
+
+### Asistencia única
+
+Cada persona solo puede tener **una asistencia activa** a la vez. Si ya estás asistiendo una alerta, no puedes asistir otra hasta que te retires.
 
 ### Validación de campos
 
-El servidor rechaza envíos incompletos (`400`) si faltan campos obligatorios.
+El servidor rechaza peticiones incompletas (`400`) si faltan campos obligatorios: `lat`, `lng`, `severity`, `duration` o `fingerprint_hash`.
+
+### Expiración automática
+
+Las alertas se eliminan automáticamente al alcanzar su fecha de expiración (configurable: 15 min, 1 h, 6 h, 24 h). Un evento MySQL limpia las expiradas cada hora.
+
+## Privacidad
+
+- **No hay registro de usuarios** — no se pide email, nombre ni teléfono
+- **No hay cookies de seguimiento** — solo localStorage para el idioma y preferencias
+- **No se almacena la ubicación** — las coordenadas se asocian a la alerta, no al perfil
+- **No se comparten datos con terceros**
+- El mapa usa OpenStreetMap (gratuito, sin API key)
 
 ## Cómo contribuir
 
@@ -246,12 +317,12 @@ El servidor rechaza envíos incompletos (`400`) si faltan campos obligatorios.
 
 **HTTPS:**
 ```bash
-git clone https://github.com/<usuario>/FamiliasPalmete.git
+git clone https://github.com/<usuario>/redvecinal.git
 ```
 
 **SSH (recomendado):**
 ```bash
-git clone git@github.com:<usuario>/FamiliasPalmete.git
+git clone git@github.com:<usuario>/redvecinal.git
 ```
 
 ### Configurar una clave SSH en GitHub
@@ -296,12 +367,13 @@ ssh -T git@github.com
    ```
 2. Haz cambios y verifica:
    ```bash
-   npm run dev
+   npm run dev      # frontend
+   npm run dev:api  # api
    ```
 3. Commit:
    ```bash
    git add .
-   git commit -m "feat: añadir sección de testimonios"
+   git commit -m "feat: añadir filtro por severidad"
    ```
 4. Sube la rama:
    ```bash
@@ -319,3 +391,13 @@ ssh -T git@github.com
 | `style:` | Cambios de estilo |
 | `refactor:` | Refactorización de código |
 | `chore:` | Tareas de mantenimiento |
+
+## Licencia
+
+[![CC BY-NC-SA 4.0](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+Este proyecto está bajo la licencia **CC BY-NC-SA 4.0** (Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International).
+
+Puedes compartir y adaptar el contenido **para fines no comerciales**, siempre que reconozcas la autoría y compartas las modificaciones bajo la misma licencia.
+
+El texto completo de la licencia está disponible en el archivo [`LICENSE`](./LICENSE).
