@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import Logo from './components/Logo'
 import LanguageSwitcher from './components/LanguageSwitcher'
 import HomePage from './pages/HomePage'
+import PrivacyPage from './pages/PrivacyPage'
+import LegalPage from './pages/LegalPage'
 
 function Layout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation()
@@ -44,7 +46,9 @@ function Layout({ children }: { children: React.ReactNode }) {
         justifyContent: 'center',
         gap: '8px',
       }}>
-        <span>{t('footer.privacy')}</span>
+        <Link to="/privacy" style={{ color: 'inherit', textDecoration: 'none' }}>{t('footer.privacy')}</Link>
+        <span style={{ color: 'var(--border)' }}>·</span>
+        <Link to="/legal" style={{ color: 'inherit', textDecoration: 'none' }}>{t('footer.legal')}</Link>
         <span style={{ color: 'var(--border)' }}>·</span>
         <span>{t('footer.rights')}</span>
       </footer>
@@ -58,6 +62,8 @@ export default function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/legal" element={<LegalPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
