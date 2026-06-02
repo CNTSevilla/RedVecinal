@@ -35,11 +35,12 @@ function Layout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       <div style={{
-        background: 'var(--bg-accent, #f0f0f0)',
-        padding: '6px 12px',
+        background: 'var(--bg-tertiary)',
+        borderTop: '1px solid var(--border)',
+        padding: '5px 12px',
         textAlign: 'center',
         fontSize: '11px',
-        color: 'var(--text-muted)',
+        color: 'var(--text-secondary)',
         flexShrink: 0,
         lineHeight: 1.4,
       }}>
@@ -59,9 +60,9 @@ function Layout({ children }: { children: React.ReactNode }) {
         justifyContent: 'center',
         gap: '8px',
       }}>
-        <Link to="/privacy" style={{ color: 'inherit', textDecoration: 'none' }}>{t('footer.privacy')}</Link>
+        <Link to="/privacy" style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.15s' }} onMouseEnter={e => (e.target as HTMLElement).style.color = 'var(--red-primary)'} onMouseLeave={e => (e.target as HTMLElement).style.color = 'inherit'}>{t('footer.privacy')}</Link>
         <span style={{ color: 'var(--border)' }}>·</span>
-        <Link to="/legal" style={{ color: 'inherit', textDecoration: 'none' }}>{t('footer.legal')}</Link>
+        <Link to="/legal" style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.15s' }} onMouseEnter={e => (e.target as HTMLElement).style.color = 'var(--red-primary)'} onMouseLeave={e => (e.target as HTMLElement).style.color = 'inherit'}>{t('footer.legal')}</Link>
         <span style={{ color: 'var(--border)' }}>·</span>
         <span>{t('footer.rights')}</span>
       </footer>
