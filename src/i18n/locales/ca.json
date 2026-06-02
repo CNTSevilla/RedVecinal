@@ -33,7 +33,7 @@
   "asistir": { "voy": "Vaig", "asistiendo": "Assistint", "acompañando": "Acompanyant", "people": "persona(es) assistint" },
   "zona_segura": { "btn": "Marcar zona segura", "ended": "La situació ha acabat", "clear": "Zona neta", "false_alarm": "Falsa alarma" },
   "status": { "unverified": "Sense verificar", "multiple": "Múltiples informes", "confirmed": "Confirmat" },
-  "footer": { "privacy": "Privacitat", "legal": "Avís legal",
+  "footer": { "privacy": "Privacitat", "legal": "Avís legal", "notice": "No fem servir les teves dades per a publicitat, estudis de mercat ni fins comercials. Només perquè la comunitat funcioni i s'ajudi.",
     "rights": "Xarxa Veïnal — per i per a la comunitat" },
   "privacy": {
     "back": "Tornar al mapa",

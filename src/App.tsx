@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Logo from './components/Logo'
 import LanguageSwitcher from './components/LanguageSwitcher'
@@ -8,6 +8,8 @@ import LegalPage from './pages/LegalPage'
 
 function Layout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation()
+  const location = useLocation()
+  const isLegalPage = location.pathname === '/privacy' || location.pathname === '/legal'
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -29,9 +31,20 @@ function Layout({ children }: { children: React.ReactNode }) {
         </Link>
         <LanguageSwitcher />
       </header>
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: isLegalPage ? 'auto' : 'hidden' }}>
         {children}
       </main>
+      <div style={{
+        background: 'var(--bg-accent, #f0f0f0)',
+        padding: '6px 12px',
+        textAlign: 'center',
+        fontSize: '11px',
+        color: 'var(--text-muted)',
+        flexShrink: 0,
+        lineHeight: 1.4,
+      }}>
+        {t('footer.notice')}
+      </div>
       <footer style={{
         background: 'var(--bg-secondary)',
         borderTop: '1px solid var(--border)',

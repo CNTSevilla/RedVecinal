@@ -33,7 +33,7 @@
   "asistir": { "voy": "Noa", "asistiendo": "Laguntzen", "acompañando": "Laguntzen", "people": "pertsona laguntzen" },
   "zona_segura": { "btn": "Eremu segurua markatu", "ended": "Egoera amaitu da", "clear": "Eremu garbia", "false_alarm": "Alarma faltsua" },
   "status": { "unverified": "Egiazta gabe", "multiple": "Erreportaje anitz", "confirmed": "Baieztatua" },
-  "footer": { "privacy": "Pribatutasuna", "legal": "Ohar legala",
+  "footer": { "privacy": "Pribatutasuna", "legal": "Ohar legala", "notice": "Ez ditugu zure datuak erabiltzen publizitaterako, merkatu-ikerketetarako edo helburu komertzialetarako. Komunitateak funtzionatu eta laguntzeko soilik.",
     "rights": "Auzo Sarea — komunitatearen eskutik eta komunitatearentzat" },
   "privacy": {
     "back": "Mapara itzuli",

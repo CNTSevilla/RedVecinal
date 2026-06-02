@@ -33,7 +33,7 @@
   "asistir": { "voy": "Voy", "asistiendo": "Asistiendo", "acompañando": "Acompañando", "people": "persona(s) asistiendo" },
   "zona_segura": { "btn": "Marca zona segura", "ended": "La situació terminó", "clear": "Zona despejá", "false_alarm": "Falsa alarma" },
   "status": { "unverified": "Sin verificá", "multiple": "Várioh reporte", "confirmed": "Confirmáo" },
-  "footer": { "privacy": "Privacirá", "legal": "Avíh legal",
+  "footer": { "privacy": "Privacirá", "legal": "Avíh legal", "notice": "No usamoh tus datoh pa publicirá, estudio de mercáo ni fine comerciale. Só pa que la comunirá funcione i se ayú.",
     "rights": "Reh Vehinal — por i pa la comunirá" },
   "privacy": {
     "back": "Vorse ar mapa",

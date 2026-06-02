@@ -33,7 +33,7 @@
   "asistir": { "voy": "Vou", "asistiendo": "Asistindo", "acompañando": "Acompañando", "people": "persoa(s) asistindo" },
   "zona_segura": { "btn": "Marcar zona segura", "ended": "A situación rematou", "clear": "Zona despexada", "false_alarm": "Falsa alarma" },
   "status": { "unverified": "Sen verificar", "multiple": "Múltiples informes", "confirmed": "Confirmado" },
-  "footer": { "privacy": "Privacidade", "legal": "Aviso legal",
+  "footer": { "privacy": "Privacidade", "legal": "Aviso legal", "notice": "Non usamos os teus datos para publicidade, estudos de mercado nin fins comerciais. Só para que a comunidade funcione e se axude.",
     "rights": "Rede Veciñal — por e para a comunidade" },
   "privacy": {
     "back": "Volver ao mapa",

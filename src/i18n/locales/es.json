@@ -33,7 +33,7 @@
   "asistir": { "voy": "Voy", "asistiendo": "Asistiendo", "acompañando": "Acompañando", "people": "persona(s) asistiendo" },
   "zona_segura": { "btn": "Marcar zona segura", "ended": "La situación terminó", "clear": "Zona despejada", "false_alarm": "Falsa alarma" },
   "status": { "unverified": "Sin verificar", "multiple": "Múltiples reportes", "confirmed": "Confirmado" },
-  "footer": { "privacy": "Privacidad", "legal": "Aviso legal",
+  "footer": { "privacy": "Privacidad", "legal": "Aviso legal", "notice": "No usamos tus datos para publicidad, estudios de mercado ni fines comerciales. Solo para que la comunidad funcione y se ayude.",
     "rights": "Red Vecinal — por y para la comunidad" },
   "privacy": {
     "back": "Volver al mapa",
