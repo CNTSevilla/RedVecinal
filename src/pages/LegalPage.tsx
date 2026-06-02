@@ -1,3 +1,10 @@
+/**
+ * Página de Aviso Legal.
+ * Incluye: identificación del proyecto, condiciones de uso,
+ * exclusión de responsabilidad (disclaimer), normas de uso,
+ * propiedad intelectual y política de cambios.
+ * El contenido se renderiza desde las claves de traducción i18n.
+ */
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 

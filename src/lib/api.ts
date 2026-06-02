@@ -1,3 +1,17 @@
+/**
+ * Cliente HTTP para la API REST de Red Vecinal.
+ * Usa VITE_API_URL como base (se configura con variable de entorno).
+ * En desarrollo: Vite proxy → /api → localhost:3001
+ * En APK: VITE_API_URL apunta al servidor desplegado.
+ *
+ * Endpoints:
+ *  GET  /alertas         — lista alertas activas
+ *  POST /alertas         — crear alerta (requiere fingerprint_hash)
+ *  POST /alertas/:id/assist      — asistir alerta
+ *  DELETE /alertas/:id/assist     — retirar asistencia
+ *  GET  /alertas/:id/assist       — verificar si ya asiste
+ *  GET  /assists/current          — asistencia activa del fingerprint
+ */
 const API = import.meta.env.VITE_API_URL || '/api'
 
 export interface Alerta {

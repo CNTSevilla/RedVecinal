@@ -1,3 +1,12 @@
+/**
+ * Servidor Express de la API Red Vecinal.
+ * Proporciona endpoints REST para:
+ *  - Obtener alertas activas (GET /api/alertas)
+ *  - Crear alerta (POST /api/alertas) con rate-limit por fingerprint
+ *  - Asistir / retirar asistencia (POST/DELETE /api/alertas/:id/assist)
+ *  - Consultar asistencia actual (GET /api/assists/current)
+ * Arranca en el puerto 3001 por defecto.
+ */
 import express from 'express'
 import cors from 'cors'
 import { testConnection } from './db.js'

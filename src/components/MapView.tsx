@@ -1,3 +1,15 @@
+/**
+ * Componente principal del mapa Leaflet.
+ * - Renderiza mapa centrado en España con límites geográficos
+ * - Marcadores de alertas con clusterización (MarkerCluster)
+ * - Ubicación del usuario (círculo azul con pulso)
+ * - Popups con info de alerta + botón Voy (asistir)
+ * - Persistencia de vista (centro + zoom) en localStorage
+ * - Sidebar de alertas cercanas (10 km)
+ * - Polling cada 30 segundos
+ *
+ * Severidades: sospechoso → emergencia (amarillo → rojo oscuro)
+ */
 import { useEffect, useRef, useCallback, useState, useMemo } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'

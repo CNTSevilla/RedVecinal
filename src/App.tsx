@@ -1,3 +1,13 @@
+/**
+ * App: layout principal y enrutador.
+ * - Header: logo + selector de idioma
+ * - Main: renderiza la ruta activa (mapa / privacidad / aviso legal)
+ * - Banner informativo: "no usamos datos comerciales"
+ * - Footer: enlaces a privacidad y aviso legal
+ *
+ * Las rutas /privacy y /legal tienen scroll vertical (overflow: auto),
+ * el resto (mapa) tiene overflow: hidden.
+ */
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Logo from './components/Logo'

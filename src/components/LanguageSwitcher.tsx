@@ -1,3 +1,8 @@
+/**
+ * Selector de idioma.
+ * Muestra un <select> con los 7 idiomas disponibles.
+ * Al cambiar, persiste en localStorage vía i18next-browser-languagedetector.
+ */
 import { useTranslation } from 'react-i18next'
 
 const languages = [

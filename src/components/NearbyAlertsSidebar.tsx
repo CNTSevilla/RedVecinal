@@ -1,3 +1,10 @@
+/**
+ * Sidebar de alertas cercanas (radio 10 km).
+ * Muestra tarjetas ordenadas por fecha descendente con:
+ * - Barra de color según severidad
+ * - Tipo, descripción, tiempo transcurrido, distancia, asistencias
+ * Al hacer clic en una tarjeta, el mapa vuela a la ubicación de la alerta.
+ */
 import { useTranslation } from 'react-i18next'
 import type { Alerta } from '../lib/api'
 

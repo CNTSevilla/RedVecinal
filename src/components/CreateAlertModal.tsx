@@ -1,3 +1,10 @@
+/**
+ * Modal de creación de alerta.
+ * Formulario con: severidad, descripción, número de personas,
+ * dirección, apariencia, duración.
+ * Al enviar, genera el fingerprint y llama a la API.
+ * Incluye aviso anti-doxxing.
+ */
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { createAlerta } from '../lib/api'

@@ -1,3 +1,9 @@
+/**
+ * Genera un identificador anónimo (huella digital) del navegador.
+ * Combina canvas fingerprinting + user agent + color depth + idioma,
+ * y lo hashea con SHA-256. No se puede reconstruir la identidad real.
+ * Se usa para rate-limit de alertas y control de asistencias.
+ */
 export async function createFingerprint(): Promise<string> {
   const parts: string[] = []
 

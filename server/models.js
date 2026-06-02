@@ -1,3 +1,12 @@
+/**
+ * Modelos de acceso a datos.
+ * Cada función encapsula una consulta SQL para la tabla `alertas` y `assists`.
+ * - fetchAlertas: devuelve alertas activas no expiradas
+ * - createAlerta: inserta nueva alerta con UUID y fecha de expiración
+ * - assistAlerta / unassistAlerta: gestiona asistencias (Voy)
+ * - currentAssist: comprueba si un fingerprint tiene una asistencia activa
+ * - canCreateAlert: rate-limit de 2 alertas cada 5 minutos por fingerprint
+ */
 import { v4 as uuidv4 } from 'uuid'
 import { getPool } from './db.js'
 

@@ -1,3 +1,8 @@
+/**
+ * Conexión a MySQL con pool de conexiones.
+ * Las credenciales se leen de variables de entorno con valores por defecto
+ * que coinciden con docker-compose.yml.
+ */
 import mysql from 'mysql2/promise'
 
 const DB_CONFIG = {

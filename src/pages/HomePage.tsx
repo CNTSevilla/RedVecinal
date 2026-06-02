@@ -1,3 +1,9 @@
+/**
+ * Página principal.
+ * Renderiza el mapa Leaflet (MapView) y, cuando se hace clic en el mapa,
+ * muestra el modal de creación de alerta (CreateAlertModal).
+ * refreshKeyRef fuerza el re-montado de MapView cuando se crea una alerta.
+ */
 import { useState, useCallback, useRef } from 'react'
 import MapView from '../components/MapView'
 import CreateAlertModal from '../components/CreateAlertModal'

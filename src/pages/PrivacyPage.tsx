@@ -1,3 +1,9 @@
+/**
+ * Página de Política de Privacidad (RGPD / LOPDGDD).
+ * Explica qué datos se recogen, para qué, base legal, plazo de conservación,
+ * derechos ARCO y datos de contacto.
+ * El contenido se renderiza desde las claves de traducción i18n.
+ */
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 

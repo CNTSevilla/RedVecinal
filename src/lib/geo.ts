@@ -1,3 +1,8 @@
+/**
+ * pointInPolygon: comprueba si un punto está dentro de un polígono (ray casting).
+ * isInsideSpain: check multil polígono contra el GeoJSON de España.
+ * haversine: distancia entre dos coordenadas en km (fórmula de Haversine).
+ */
 export function pointInPolygon([px, py]: number[], ring: number[][]): boolean {
   let inside = false
   for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {

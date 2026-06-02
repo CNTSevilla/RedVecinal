@@ -1,3 +1,9 @@
+/**
+ * Configuración de i18next.
+ * Carga 7 idiomas desde archivos JSON en locales/.
+ * Usa localStorage para recordar el idioma, con detección automática del navegador.
+ * Fallback a español si falta una traducción.
+ */
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
